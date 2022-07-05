@@ -59,7 +59,7 @@ class ROS(OverSampling):
             return X.copy(), y.copy()
 
         target_class_indices = np.flatnonzero(y == self.min_label)
-        new_X_indices = self._random_state.choice(target_class_indices, size=n_to_sample)
+        new_X_indices = self.random_state.choice(target_class_indices, size=n_to_sample)
 
         return (np.vstack([X, X[new_X_indices]]),
                 np.hstack([y, np.repeat(self.min_label, len(new_X_indices))]))
@@ -70,9 +70,4 @@ class ROS(OverSampling):
             dict: the parameters of the current sampling object
         """
         return {'proportion': self.proportion,
-                'n_grid': self.n_grid,
-                'sigma': self.sigma,
-                'learning_rate': self.learning_rate,
-                'n_iter': self.n_iter,
-                'n_jobs': self.n_jobs,
                 'random_state': self._random_state_init}

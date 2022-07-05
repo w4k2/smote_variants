@@ -121,6 +121,7 @@ class CCR(OverSampling):
 
             return self.random_state.permutation(sample)
 
+        X_ = np.copy(X)
         minority = X[y == self.min_label]
         majority = X[y == self.maj_label]
 
@@ -191,6 +192,7 @@ class CCR(OverSampling):
 
         majority = majority.astype(float)
         majority += translations
+        X_[y == self.maj_label] = majority
 
         appended = []
         for i in range(len(minority)):
@@ -207,7 +209,7 @@ class CCR(OverSampling):
             _logger.info("No samples were added")
             return X.copy(), y.copy()
 
-        return (np.vstack([X, np.vstack(appended)]),
+        return (np.vstack([X_, np.vstack(appended)]),
                 np.hstack([y, np.repeat(self.min_label, len(appended))]))
 
     def get_params(self, deep=False):

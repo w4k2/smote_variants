@@ -71,9 +71,7 @@ class RandomStateMixin:
 
         self._random_state_init = random_state
 
-        if random_state is None:
-            self.random_state = np.random
-        elif isinstance(random_state, int):
+        if random_state is None or isinstance(random_state, int):
             self.random_state = np.random.RandomState(random_state)
         elif isinstance(random_state, np.random.RandomState):
             self.random_state = random_state
